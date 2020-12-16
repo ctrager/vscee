@@ -6,13 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cat Coding</title>
     <script>
+        var vscode = null
+
         function on_load() {
             console.log("corey is logging from on load")
+            vscode = acquireVsCodeApi();
+
+            window.addEventListener("message", event => {
+                console.log("received message", event.data)
+            })
+
+            console.log("on load end")
+
         }
-        function foo() {
-            document.getElementById("hidden_div").style.display = "block"
-            console.log("corey click")
+
+
+        function post_message_to_extension() {
+            console.log("post_message_to_extension")
+            color_select = document.getElementById("color_select")
+            color = color_select.options[color_select.selectedIndex].innerText
+
+            vscode.postMessage({foo: "bar", color: color})
         }
+
     </script>
 </head>
 
@@ -23,15 +39,14 @@
 
         <br>
         color?
-        <select>
+        <select id="color_select">
             <option>red</option>
-            <option>green</option>
+            <option selected>green</option>
             <option>blue</option>
         </select>
     </form>
     <br>
-    <button onclick="foo()">click me</button>
-    <div id="hidden_div" style="display:none">You can see me now</div>
+    <button onclick="post_message_to_extension()">click to send message to extension</button>
 
 </body>
 

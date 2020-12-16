@@ -38,8 +38,8 @@ function activate(context) {
 	context.subscriptions.push(disposable);
 
 	// Corey says...pretend something happens
-	// setTimeout(corey_something_happened, 500)
-	setTimeout(corey_create_webview_panel, 500);
+	// setTimeout(something_happened, 500)
+	setTimeout(create_webview_panel, 500);
 }
 exports.activate = activate;
 
@@ -52,9 +52,9 @@ module.exports = {
 }
 
 // showInformationMessage
-async function corey_something_happened() {
+async function something_happened() {
 
-	console.log("corey_something_happened");
+	console.log("something_happened");
 
 	await vscode.window.showInformationMessage("Chose one or two",
 		"show input box",
@@ -64,15 +64,15 @@ async function corey_something_happened() {
 			vscode.window.showInformationMessage(`you chose ${choice}`)
 
 			if (choice == "show input box") {
-				corey_show_input_box()
+				show_input_box()
 			}
 		})
 }
 
 // showInputBox
-async function corey_show_input_box() {
+async function show_input_box() {
 
-	console.log("corey_show_input_box")
+	console.log("show_input_box")
 
 	await vscode.window.showInputBox({
 		value: "red",
@@ -84,16 +84,16 @@ async function corey_show_input_box() {
 
 		console.log("after input")
 		vscode.window.showInformationMessage(text)
-		corey_show_quick_pick()
+		show_quick_pick()
 	});
 
 }
 
 
 // showQuickPick
-async function corey_show_quick_pick() {
+async function show_quick_pick() {
 
-	console.log("corey_show_quick_pick")
+	console.log("show_quick_pick")
 
 	var items = ["corey", "misayo", "abi", "isaac"]
 	var options = {canPickMany: true, placeHolder: "who do you love?"}
@@ -101,16 +101,19 @@ async function corey_show_quick_pick() {
 
 		console.log("after quick pick")
 		vscode.window.showInformationMessage(JSON.stringify(selection))
-		corey_create_webview_panel()
+		create_webview_panel()
 	});
 
 }
 
 // createWebViewPanel
+
+// To see console.log from my_webview.html:
+// ctrl-p in vscode, then "Developer: Open WebView Developer Tools"
 var panel = null
 
-function corey_create_webview_panel() {
-	console.log("corey_create_webview_panel")
+function create_webview_panel() {
+	console.log("create_webview_panel")
 
 	var show_options = {
 		viewColumn: vscode.ViewColumn.One,
@@ -135,4 +138,15 @@ function corey_create_webview_panel() {
 			console.log("after open text document")
 			panel.webview.html = doc.getText()
 		})
+
+	setInterval(post_message_to_webview, 4000)
+
+	panel.webview.onDidReceiveMessage(message => {
+		console.log(message)
+	})
+}
+
+function post_message_to_webview() {
+	console.log("posting...")
+	panel.webview.postMessage({foo: "bar", time: new Date().toTimeString()})
 }
