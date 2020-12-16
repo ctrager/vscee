@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Coding</title>
+    <script>
+        function on_load() {
+            console.log("corey is logging from on load")
+        }
+        function foo() {
+            document.getElementById("hidden_div").style.display = "block"
+            console.log("corey click")
+        }
+    </script>
+</head>
+
+<body onload="on_load()">
+    <div style="border: 3px color red; background-color:green;">Corey is here from webview folder!</div>
+    <form>
+        number? <input type=number />
+
+        <br>
+        color?
+        <select>
+            <option>red</option>
+            <option>green</option>
+            <option>blue</option>
+        </select>
+    </form>
+    <br>
+    <button onclick="foo()">click me</button>
+    <div id="hidden_div" style="display:none">You can see me now</div>
+
+</body>
+
+</html>
