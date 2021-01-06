@@ -38,8 +38,8 @@ function activate(context) {
 	context.subscriptions.push(disposable);
 
 	// Corey says...pretend something happens
-	// setTimeout(something_happened, 500)
-	setTimeout(create_webview_panel, 500);
+	setTimeout(something_happened, 500)
+	//setTimeout(create_webview_panel, 500);
 }
 exports.activate = activate;
 
